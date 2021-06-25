@@ -33,7 +33,8 @@ jobs:
           DOCKER_REPO: ${{ secrets.DOCKER_REPO }}
         run: |
           docker build \
-          --push \
+          --build-arg APISIX_VERSION=${{ steps.prepare.outputs.tag_name }} \
           -t ${DOCKER_REPO:-apisix/apisix}:${{ steps.prepare.outputs.tag_name }}-${{ matrix.platform }} \
           -f ./${{ matrix.platform }}/Dockerfile \
           .
+          docker push ${DOCKER_REPO:-apisix/apisix}:${{ steps.prepare.outputs.tag_name }}-${{ matrix.platform }} 
